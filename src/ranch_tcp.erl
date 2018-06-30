@@ -100,10 +100,9 @@ disallowed_listen_options() ->
 accept(LSocket, Timeout) ->
 	gen_tcp:accept(LSocket, Timeout).
 
--spec accept_ack(inet:socket(), timeout()) -> ok.
+-spec accept_ack(inet:socket(), timeout()) -> {ok, inet:socket()}.
 accept_ack(CSocket, Timeout) ->
-	{ok, _} = handshake(CSocket, [], Timeout),
-	ok.
+	handshake(CSocket, [], Timeout).
 
 -spec handshake(inet:socket(), opts(), timeout()) -> {ok, inet:socket()}.
 handshake(CSocket, _, _) ->

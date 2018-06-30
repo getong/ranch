@@ -166,7 +166,7 @@ child_spec(Ref, NumAcceptors, Transport, TransOpts, Protocol, ProtoOpts)
 		Ref, NumAcceptors, Transport, TransOpts, Protocol, ProtoOpts
 	]}, permanent, infinity, supervisor, [ranch_listener_sup]}.
 
--spec accept_ack(ref()) -> ok.
+-spec accept_ack(ref()) -> {ok, ranch_transport:socket()}.
 accept_ack(Ref) ->
 	receive {handshake, Ref, Transport, Socket, AckTimeout} ->
 		Transport:accept_ack(Socket, AckTimeout)
