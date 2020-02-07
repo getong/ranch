@@ -32,7 +32,12 @@ start_link(Ref, Transport, TransOpts, Protocol, ProtoOpts) ->
 -spec init({ranch:ref(), module(), module(), module()})
 	-> {ok, {supervisor:sup_flags(), [supervisor:child_spec()]}}.
 init({Ref, Transport, Protocol, Logger}) ->
-	ok = ranch_server:set_listener_sup(Ref, self()),
+	case put(running, true) of
+		undefined ->
+			ok = ranch_server:set_listener_sup(Ref, self());
+		true ->
+			ok
+	end,
 	ChildSpecs = [
 		#{
 			id => ranch_conns_sup_sup,
